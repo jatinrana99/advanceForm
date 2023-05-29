@@ -3,18 +3,26 @@
         <header>
             <slot name="header"></slot>
         </header>
-        <body>
+        <section>
             <slot name="body"></slot>
-        </body>
+        </section>
         <footer>
             <slot name="footer"></slot>
         </footer>
     </div>
+
+    <div>
+        
+    </div>
 </template>
 
 <script>
+
 export default {
-    name:`Form`
+    name:`Form`,
+    components:{
+    },
+
 }
 </script>
 
