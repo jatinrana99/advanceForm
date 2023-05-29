@@ -46,6 +46,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  background: linear-gradient(0.25turn, #91e3ab, #ebf8e1, #91cb70b7);
 }
 
 #body{

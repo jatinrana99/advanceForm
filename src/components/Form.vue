@@ -24,5 +24,7 @@ export default {
     width: 456px;
     border: 2px solid;
     display: inline-block;
+    background: linear-gradient(0.25turn, #91e3ab, #ebf8e1, #91cb70b7);
+
 }
 </style>
