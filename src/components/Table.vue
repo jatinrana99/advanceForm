@@ -1,6 +1,8 @@
 <template>
     <div class="table">
-        <Input v-on:submit-item="submit" v-bind:email="email" v-bind:name="name" >
+        <Input v-on:submit-item="submit" v-bind:editEmail="editEmail" v-bind:edit-index="editIndex"
+        v-bind:editName="editName" v-bind:Dob="editDob" 
+                v-on:edit-item="edit">
         
         </Input>
         <table class="tb">
@@ -8,12 +10,22 @@
             <th>Name</th>
             <th>Email</th>
             <th>Date Of Birth</th>
+            <th>Edit</th>
+            <th>Delete</th>
             </tr>
 
             <tr v-for="(item,index) in items" v-bind:key="index">
                 <td>{{ item.name }}</td>
                 <td>{{ item.email }}</td>
-                <td>{{ item.dob }}</td>
+                <td>{{ item.dob }}</td>  
+                <!-- <td>{{ item.password }}</td> -->
+                <td>
+                    <i class="fa-solid fa-pen-to-square" v-on:click.prevent="editItem(index)"></i>
+                </td>
+                <td>
+                    <i class="fa-solid fa-trash" v-on:click.prevent="deleteItem(index)"></i>
+                </td>
+
             </tr>
             
         </table>
@@ -32,22 +44,62 @@ export default {
     data(){
         return{
             items:[],
-            // editIndex:-1
+            editEmail:"",
+            editDob:"",
+            editName:"",
+            editIndex:-1
         }
     },
 
 
     methods:{
-        submit(email,name,dob){
-            this.items.push({'email':email,
-        'name':name,
-        'dob':dob});
+        submit:function(editEmail,editName,editDob){
+            this.items.push({'email':editEmail,
+                             'name':editName,
+                             'dob':editDob
+                            });
             this.email="";
             this.name="";
             this.dob="";
-        }
-    }
+        },
+        editItem:function(index){
+            console.log("edit index");
+            this.editIndex= index;
+            // this.name = this.items[index];4
+            this.editEmail = this.items[index];
+
+    },
+
+    edit:function(obj){
+            var{editEmail,editName,editDob,editIndex} = obj;
+
+            console.log("hello from edit");
+
+            this.items[editIndex].email=editEmail;
+            this.items[editIndex].name=editName;
+            this.items[editIndex].dob=editDob;
+            
+
+
+            // this.name="";
+            // this.email="";
+            // this.dob="";
+            // this.editIndex =-1;
+
+
+            this.editName="";
+            this.editEmail="";
+            this.editDob="";
+            this.editIndex =-1;
+
+
+        },
+
+    deleteItem: function(index) {
+        this.items.splice(index,1);
+    },
   
+  }
 }
 </script>
 

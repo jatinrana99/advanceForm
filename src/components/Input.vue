@@ -19,7 +19,7 @@
     
   </template>
   <template v-slot:footer>
-    <button id="button" v-on:click.prevent="submit()" >Submit Form</button>
+    <button id="button" v-on:click.prevent="submit" >Submit Form</button>
   </template>
 
 
@@ -31,16 +31,61 @@
 import Form from './Form.vue'
 export default {
     name:`Input`,
-
     components:{
         Form
     },
+    data(){
+      return{
+        email:"",
+        name:"",
+        dob:""
+      }
+    },
+    props:{
+        // email:{}
+        editEmail:{type:String,require:true},
+        editIndex:{type:Number,require:true}
+    },
+
+    
+    watch: {
+            editEmail(newEmail){
+                console.log("watch", newEmail.email , newEmail.name , newEmail.dob);
+                this.email=newEmail.email;
+                this.name=newEmail.name;
+                this.dob=newEmail.dob;
+            // },
+            // editName(newName){
+            //     console.log("watch", newName.name);
+            //     this.name=newName.name;
+            // },
+            // editPassword(newPassword){
+            //     console.log("watch",  newPassword.password);
+            //     this.password=newPassword.password;
+            // }
+            }
+        },
     methods:{
-        submit(){
+      submit:function(){
+            
+
+             if(this.editIndex !== -1){
+
+            this.$emit("edit-item", {
+                editEmail:this.email,
+                editName:this.name,
+                editDob:this.dob,
+                editIndex:this.editIndex
+            });}
+            else{
             this.$emit("submit-item", this.email, this.name , this.dob);
+        }
             this.email="";
             this.name="";
             this.dob="";
+            // eslist-disable the next line
+
+        
         }
     }
 }
