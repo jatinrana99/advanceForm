@@ -160,7 +160,7 @@ table{
     position: absolute;
     width: 1045px;
     left: 170px;
-    
+    top: 80%;
 }
 th{
     border: solid 2px;
