@@ -120,6 +120,8 @@ export default {
             this.email="";
             this.name="";
             this.dob="";
+            this.password="";
+            this.conformPassword="";
             // eslist-disable the next line
 
         

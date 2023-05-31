@@ -7,17 +7,19 @@
         </Input>
         <table class="tb">
             <tr>
-            <th>Name</th>
+                <th v-for="(item,index) in columns" v-bind:key="index" v-on:click="sortData(index)">{{ item }} ⇅</th>
+            <!-- <th>Name</th>
             <th>Email</th>
-            <th>Date Of Birth</th>
+            <th>Date Of Birth</th> -->
             <th>Edit</th>
             <th>Delete</th>
             </tr>
 
             <tr v-for="(item,index) in items" v-bind:key="index">
-                <td>{{ item.name }}</td>
+                <td v-for="(rowitem,rowindex) in item" v-bind:key="rowindex">{{ rowitem }}</td>
+                <!-- <td>{{ item.name }}</td>
                 <td>{{ item.email }}</td>
-                <td>{{ item.dob }}</td>  
+                <td>{{ item.dob }}</td>   -->
                 <!-- <td>{{ item.password }}</td> -->
                 <td>
                     <i class="fa-solid fa-pen-to-square" v-on:click.prevent="editItem(index)"></i>
@@ -48,7 +50,9 @@ export default {
             editDob:"",
             editName:"",
             editIndex:-1,
-            arr:[],
+            columns:["Email","Name","DOB"],
+            sortDesc:false,
+            sortKey:""
 
 
         }
@@ -102,17 +106,44 @@ export default {
         this.items.splice(index,1);
     },
 
-    sortTableData(index){
+    sortData(index){
         console.log("Hello from sortTableData");
-        if(index==0){
-            console.log("You are in table");
-            for(let i=0 ; i<this.items.length ; i++){
-                this.rows.push(this.items[i].email);
+      const key = this.columns[index].toLowerCase().replace(" ","_");
+      console.warn(key);
+      if(this.sortKey == key){
+        this.sortDesc =! this.sortDesc;
+      }
+      else{
+        this.sortKey = key;
+        this.sortDesc = false;
+      }
+      console.warn("check" , this.sortKey=='dob');
+
+      this.items.sort((a,b) =>{
+        const valueA = a[this.sortKey];
+        const valueB = b[this.sortKey];
+        if(this.sortKey == "dob"){
+            // convert the date string to date objects
+            const dateA = new Date(valueA);
+            const dateB = new Date(valueB);
+            if(this.sortDesc){
+                return dateB.getTime() - dateA.getTime();
             }
-            console.log(this.rows.sort());
-            this.rows.sort();
+            else {
+                return dateA.getTime() - dateB.getTime();
+            }
         }
-    }
+        else {
+            if(this.sortDesc){
+                return valueB.localeCompare(valueA);
+            }
+            else {
+                return valueA.localeCompare(valueB);
+            }
+        }
+      });
+    },
+    
   
   }
 }
