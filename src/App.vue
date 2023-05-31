@@ -19,9 +19,8 @@ export default {
   },
   components: {
     HelloWorld,
-    
-    Table
-  },
+    Table,
+},
 }
 </script>
 

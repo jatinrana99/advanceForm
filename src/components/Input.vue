@@ -1,5 +1,13 @@
 
 <template>
+
+<button v-on:click="()=>TogglePopup('buttonTrigger')" class="register">Register</button>
+<br>
+<br>
+<br>
+<Pop v-if="popupTriggers.buttonTrigger" :TogglePopup="
+()=>TogglePopup('buttonTrigger')">
+
     <Form>
         <template v-slot:header>
     <h1>Registration Form</h1>
@@ -15,36 +23,64 @@
       <label for="teamAndCondition">Terms and conditions</label> <input type="checkbox" id="termAndCondition">
     </div>
 
+    <!-- <div>
+      <button v-on:click="arrange()">Sort A table</button>
+      <button type="button" @click="showModel=true">Launch</button>
+      <button v-on:click="handleAlertClick">Alert</button>
+      <button v-on:click="handlePromptClick">Prompt Dialog</button>
+    </div> -->
+
     </div>
     
   </template>
   <template v-slot:footer>
-    <button id="button" v-on:click.prevent="submit" >Submit Form</button>
+    <button id="button" v-on:click.prevent="submit"  v-on:click="handleSuccessClick()">Submit Form</button>
+
   </template>
 
 
 
     </Form>
+  </Pop>
+
 </template>
 
 <script>
+
 import Form from './Form.vue'
+import Swal from 'sweetalert2'
+import Pop from  './Pop.vue'
+import {ref} from 'vue'
 export default {
     name:`Input`,
     components:{
-        Form
+        Form,
+        Pop
     },
     data(){
+      const popupTriggers = ref({
+        buttonTrigger:false,
+        timedTrigger:false
+      });
+
+      const TogglePopup=(trigger)=>{
+        popupTriggers.value[trigger] =! popupTriggers.value[trigger]
+      };
       return{
         email:"",
         name:"",
-        dob:""
+        dob:"",
+        Pop,
+        popupTriggers,
+        TogglePopup,
       }
     },
     props:{
         // email:{}
         editEmail:{type:String,require:true},
-        editIndex:{type:Number,require:true}
+        editIndex:{type:Number,require:true},
+        editName:{type:String,require:true},
+        editDob:{type:String,require}
     },
 
     
@@ -54,6 +90,7 @@ export default {
                 this.email=newEmail.email;
                 this.name=newEmail.name;
                 this.dob=newEmail.dob;
+                console.log(newEmail.email);
             // },
             // editName(newName){
             //     console.log("watch", newName.name);
@@ -86,7 +123,38 @@ export default {
             // eslist-disable the next line
 
         
+        },
+
+        arrange(){
+          console.log("arrange");
+          return alert ("arrange");
+        },
+
+        handleAlertClick(){
+          Swal.fire("This is a simple alert ")
+        },
+        handlePromptClick(){
+          Swal.fire({
+            title:"Enter your name ",
+            input:'text',
+            inputLabel:'Name',
+            inputPlaceholder:'Enter Your Name',
+            showCancelButton:true,
+            inputValidator:(value)=>{
+              if(!value){
+                return 'you need  to enter a name!'
+              }
+            }
+          }).then((result)=>{
+            if(result.isConfirmed){
+              Swal.fire('Hello ${result.value}!');
+            }
+          });
+        },
+        handleSuccessClick(){
+          Swal.fire('Success!','Your action has been completed.' , 'success');
         }
+        
     }
 }
 </script>
@@ -115,5 +183,15 @@ export default {
   height: 57px;
 background-color: chocolate;
 border-radius: 34%;
+}
+
+.register{
+  font-weight: 500;
+  font-size: 30px;
+  border: 2px solid #41b883;
+  background-color: #35495e;
+  color:#41b883;
+  padding: 27px;
+  border-radius: 15%;
 }
 </style>

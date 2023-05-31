@@ -47,7 +47,10 @@ export default {
             editEmail:"",
             editDob:"",
             editName:"",
-            editIndex:-1
+            editIndex:-1,
+            arr:[],
+
+
         }
     },
 
@@ -98,6 +101,18 @@ export default {
     deleteItem: function(index) {
         this.items.splice(index,1);
     },
+
+    sortTableData(index){
+        console.log("Hello from sortTableData");
+        if(index==0){
+            console.log("You are in table");
+            for(let i=0 ; i<this.items.length ; i++){
+                this.rows.push(this.items[i].email);
+            }
+            console.log(this.rows.sort());
+            this.rows.sort();
+        }
+    }
   
   }
 }
